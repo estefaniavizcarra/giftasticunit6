@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Gift Tastic</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <form>
+      <span id="todo-item">Search Term: 
+        <input id="search" type="text" ><input id="add" value="Add Item" type="submit">
+      </span>
+      <!-- div para botones -->
+    </form>
+  
+    <div id=botones> </div>
+<!-- div para los gif -->
+  </div>
+      <div class="col-md-9">
+  <div id="gifs-appear-here">
+    <row>
+      <div class="col-md-2"></div>
+    </row>
+    <row> 
+        <div class="col-md-2"></div>
+      </row>
+    </div>
+</div>
+<!--  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+
+// botones difinidos
+  $(document).ready(function(){
+    var busqueda = ["aristocats", "hello kitty", "cat" , "kitten" ];
+    console.log(busqueda)
+for (let i = 0; i < busqueda.length; i++) {
+  var button = $("<button>" + busqueda[i] + "</button>")
+          button.attr("id", "data-person");
+          button.val(busqueda[i]);
+          $("#botones").append(button)
+      
+  };
+
+    // al agregar texto al form que se cree boton
+
+        $("#add").on("click", function(event) {
+      // prevent form from submitting
+      event.preventDefault();
+      // Get the to-do "value" from the textbox and store it a variable
+       var toDoText= $("#search").val()
+       busqueda.push(toDoText)
+       console.log(busqueda)
+
+         if(toDoText !== ""){
+         $("#search").val("")
+
+        var button = $("<button>")
+          button.attr("id", "data-person");
+          button.text(toDoText);
+        button.val(toDoText)
+          $("#botones").append(button)
+        };
+      });
+
+      // al dar click que se ejecute el gif
+    
+
+$("button").on("click", function() {
+        // en cuanto se de click a un debe estar vacio par que no se junten con nla busqueda pasada 
+        $("#gifs-appear-here").empty();
+      var person = $(this).val();
+      // se busca la url con los datos de la persona que ya se le asignaron a la variable
+
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        person + "&api_key=dc6zaTOxFJmzC&limit=10";
+        console.log(queryURL)
+// metodo ajax  para objetener de la url lo que quermos
+      $.ajax({
+        url: queryURL, 
+        method: "GET"
+      })
+      // hace una promesa de que se cargue hasta que lo de arriba este listo o no se ejecute mientras
+
+        .then(function(response) {
+          var results = response.data;
+          for (var i = 0; i < results.length; i++) {
+
+            var gifDiv = $("<div>");
+            
+// crea una variable ratings por cada una de las imagenees
+            var rating = results[i].rating;
+// escribe un parrafo con el ratirng
+            var p = $("<p>").text("Rating: " + rating);
+// crea un tag img para cada imagenes
+            var personImage = $("<img>");
+          var dataStill=
+        // para meteer la url de la imagen en el atributo sr
+            personImage.attr("src", results[i].images.fixed_height.url);
+            personImage.addClass("gif")
+// coloca una imagen arriba del otra junto con el paffa
+            gifDiv.prepend(p);
+            gifDiv.prepend(personImage);
+            $("#gifs-appear-here").prepend(gifDiv);
+            
+
+
+  
+        };
+      }),
+
+
+        $(".gif").on("click", function() {
+          var state = $(this).attr("data-state");
+          if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+      }),
+
+    $(document.body).on("click", ".toDoButton", function() {
+$(this).empty();
+    
+});
+
+  });
+});
+
+
+
+
+
+
+ </script>
+</body>
+</html>
