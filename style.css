@@ -1,8 +1,46 @@
 button{
+    background: plum;
+    height:10em;
+    width: 10em;
 
 
 }
 body{
     background: rgba(212,228,239,1);
+    background-repeat: no-repeat;
+
+}
+  #gifs-appear-here{
+margin: 3px;
+display:inline-block;
+justify-content: center;
+text-align:center;
+margin-left: 15px;
+
+
+
+  }
+img { 
+    height: 150px;
+    width: 150px;
+}
+.main {
+	background-color: #fff;
+	opacity: 0.8;
+    padding: 20px;
+}
+button{
+
+    margin-right: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    position: relative;
+
+
+}
+.gifImage{
+    border-bottom-color: purple 10px;
+
 
 }
